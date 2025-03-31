@@ -3,12 +3,12 @@ import React from "react";
 const ContactForm = () => {
   return (
     <form
-      name="contact"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      className="space-y-4 max-w-md mx-auto bg-white p-6 rounded-2xl shadow-md"
-    >
+  name="contact"
+  method="POST"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  action="/thank-you"
+>
       {/* Hidden field for Netlify form handling */}
       <input type="hidden" name="form-name" value="contact" />
 
