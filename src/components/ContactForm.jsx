@@ -3,22 +3,24 @@ import React, { useState } from "react";
 const ContactForm = () => {
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const form = e.target;
     const data = new FormData(form);
 
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(data).toString(),
-    })
-      .then(() => {
-        setSubmitted(true);
-        form.reset();
-      })
-      .catch((error) => alert("There was a problem submitting the form."));
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(data).toString(),
+      });
+
+      setSubmitted(true);
+      form.reset();
+    } catch (err) {
+      alert("There was a problem submitting the form");
+    }
   };
 
   return (
@@ -26,16 +28,18 @@ const ContactForm = () => {
       {submitted ? (
         <div className="text-center">
           <h2 className="text-xl font-semibold mb-2">🎉 You're on the list!</h2>
-          <p className="text-gray-600">Thanks for signing up! We'll be in touch soon.</p>
+          <p className="text-gray-600">
+            Thanks for signing up! We'll be in touch soon.
+          </p>
         </div>
       ) : (
         <form
-  name="contact"
-  method="POST"
-  data-netlify="true"
-  netlify-honeypot="bot-field"
-  onSubmit={handleSubmit} // ✅ Add this
->
+          name="contact"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          onSubmit={handleSubmit}
+        >
           <input type="hidden" name="form-name" value="contact" />
 
           <p hidden>
@@ -51,7 +55,7 @@ const ContactForm = () => {
                 type="text"
                 name="name"
                 required
-                className="mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring"
+                className="mt-1 w-full px-3 py-2 border rounded-lg"
               />
             </label>
           </div>
@@ -63,7 +67,7 @@ const ContactForm = () => {
                 type="email"
                 name="email"
                 required
-                className="mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring"
+                className="mt-1 w-full px-3 py-2 border rounded-lg"
               />
             </label>
           </div>
@@ -75,7 +79,7 @@ const ContactForm = () => {
                 name="message"
                 rows="4"
                 required
-                className="mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring"
+                className="mt-1 w-full px-3 py-2 border rounded-lg"
               ></textarea>
             </label>
           </div>
